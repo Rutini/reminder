@@ -1,19 +1,18 @@
 const getEventsByDate = require('./../controllers/event/getEventsByDate');
+const sendEmail = require('./../helpers/sendEmail');
 
 module.exports = () => {
     setInterval(async () => {
-        const searchDateFrom = new Date();
-        const searchDateTo = new Date();
-        searchDateTo.setMinutes(searchDateFrom.getMinutes() + 5);
 
-        const eventsByDate = await getEventsByDate(searchDateFrom, searchDateTo);
+        const searchDate = new Date();
+        searchDate.setSeconds(0);
+
+        const eventsByDate = await getEventsByDate(searchDate);
         if (eventsByDate.length) {
-            eventsByDate.forEach((event) => {
-                console.log(event.about);
-                console.log(event.User.phone);
-                console.log('________________');
-            })
+            eventsByDate.forEach(event => {
+                sendEmail(event);
+            });
         }
 
-    }, 300000);
+    }, 60000);
 };

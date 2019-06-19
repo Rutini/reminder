@@ -1,22 +1,28 @@
 const dataBase = require('../../dataBase').getInstance();
-const Sequelize = require('sequelize');
 
-module.exports = async (searchDateFrom, searchDateTo) => {
+module.exports = async (searchDate) => {
     try {
         const Event = dataBase.getModel('Event');
         const User = dataBase.getModel('User');
 
-        const Op = Sequelize.Op;
-
-        return await Event.findAll({
+        const currentEvents =  await Event.findAll({
             where: {
-                remind_date: {
-                    [Op.between]: [searchDateFrom, searchDateTo]
-                }
+                remind_date: searchDate
             },
             include: [
                 User
             ]
+        });
+
+        return currentEvents.map(event => {
+            const {about, event_date, User} = event;
+            const {phone, email} = User;
+            return {
+                about,
+                event_date,
+                phone,
+                email
+            };
         });
 
     } catch (e) {
