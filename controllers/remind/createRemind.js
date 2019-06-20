@@ -5,7 +5,6 @@ module.exports = async (data) => {
         const User = dataBase.getModel('User');
         const Event = dataBase.getModel('Event');
 
-        console.log('_____________');
         const {name, phone, email, about, event_date, remind_date} = data;
         await User.create({
             name,
@@ -29,7 +28,10 @@ module.exports = async (data) => {
             user_id
         });
 
-        return `Remind successfully created!`;
+        const response = `Remind successfully created for ${email} at ${remind_date}`;
+        console.log(response);
+        return response;
+
     } catch (e) {
         console.log(e.message);
     }

@@ -10,6 +10,7 @@ module.exports = (() => {
             host: process.env.HOST,
             dialect: process.env.DIALECT,
             operatorsAliases: false,
+            logging: false
         });
         let models = {};
 

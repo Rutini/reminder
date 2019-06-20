@@ -9,10 +9,10 @@ module.exports = () => {
 
         const eventsByDate = await getEventsByDate(searchDate);
         if (eventsByDate.length) {
-            eventsByDate.forEach(event => {
+            return eventsByDate.forEach(event => {
                 sendEmail(event);
             });
         }
-
+        console.log('No events!');
     }, 60000);
 };

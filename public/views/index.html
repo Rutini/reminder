@@ -50,7 +50,7 @@
     const responseInfo = document.getElementById('responseInfo');
 
     socket.on('createdRemind', response => {
-        responseInfo.innerHTML += response;
+        responseInfo.innerText += response;
     });
 
     function crateRemind(name, phone, email, about, event_date, remind_date) {

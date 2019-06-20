@@ -4,5 +4,5 @@ module.exports = (socket) => {
 
     socket.on('createRemind', async (data) => {
         socket.emit('createdRemind', await createRemind(data));
-    })
+    });
 };
