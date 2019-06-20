@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reminder</title>
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+
+<h1>Remind me</h1>
+
+<h2>Care about forget something?</h2>
+<h2>Don't worry, just write this from</h2>
+
+<form id="mainForm">
+    <label for="Name">Name:</label> <br>
+    <input id="Name" name="Name" type="text" placeholder="Artem"> <br><br>
+
+    <label for="phone">Phone:</label> <br>
+    <input id="phone" name="phone" type="text" placeholder="380777777777"> <br><br>
+
+    <label for="email">Email:</label> <br>
+    <input id="email" name="email" type="email" placeholder="Artem@gmail.com"> <br><br>
+
+    <label for="remindText">What to remind:</label> <br>
+    <textarea name="remindText" id="remindText" cols="30" rows="10" placeholder="Feed the dog!"></textarea> <br><br>
+
+    <label for="event_time">When you have to do this:</label> <br>
+    <input type="datetime-local" id="event_time" name="event_time"> <br>
+
+    <label for="remind_time">When you remind this:</label> <br>
+    <input type="datetime-local" id="remind_time" name="remind_time"> <br>
+
+    <button
+            onclick="crateRemind(Name.value,
+                                 phone.value,
+                                 email.value,
+                                 remindText.value,
+                                 event_time.value,
+                                 remind_time.value)">
+        Create remind
+    </button>
+</form>
+
+<p id="response"></p>
+
+<script>
+    let socket = io('http://localhost:3000');
+
+    const responseInfo = document.getElementById('responseInfo');
+
+    socket.on('createdRemind', response => {
+        responseInfo.innerHTML += response;
+    });
+
+    function crateRemind(name, phone, email, about, event_date, remind_date) {
+
+        const remindData = {
+          name,
+          phone,
+          email,
+          about,
+          event_date,
+          remind_date
+        };
+
+        socket.emit('createRemind', remindData);
+    }
+
+</script>
+
+</body>
+</html>
