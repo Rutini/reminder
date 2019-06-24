@@ -16,7 +16,8 @@ module.exports = async (event) => {
 
         if(!email) throw new Error('Email address missed!');
 
-        const text = `${about} \n At ${event_date}`;
+        const responseDate = `${event_date.getDate()}-${(event_date.getMonth()+1)}-${event_date.getFullYear()}  ${event_date.getHours()}:${event_date.getMinutes()}`;
+        const text = `Don't forget to: \n ${about} \n At ${responseDate}`;
 
         await transporter.sendMail({
             from: process.env.USER_ADDRESS,

@@ -12,7 +12,14 @@
 <h2>Care about forget something?</h2>
 <h2>Don't worry, just write this from</h2>
 
-<form id="mainForm">
+<form id="mainForm"
+      onsubmit="return crateRemind(Name.value,
+                                   phone.value,
+                                   email.value,
+                                   remindText.value,
+                                   event_time.value,
+                                   remind_time.value)">
+
     <label for="Name">Name:</label> <br>
     <input id="Name" name="Name" type="text" placeholder="Artem"> <br><br>
 
@@ -31,18 +38,11 @@
     <label for="remind_time">When you remind this:</label> <br>
     <input type="datetime-local" id="remind_time" name="remind_time"> <br>
 
-    <button
-            onclick="crateRemind(Name.value,
-                                 phone.value,
-                                 email.value,
-                                 remindText.value,
-                                 event_time.value,
-                                 remind_time.value)">
-        Create remind
-    </button>
+    <input type="submit" value="Create remind">
+
 </form>
 
-<p id="response"></p>
+<div id="response"></div>
 
 <script>
     let socket = io('http://localhost:3000');
@@ -50,7 +50,7 @@
     const responseInfo = document.getElementById('responseInfo');
 
     socket.on('createdRemind', response => {
-        responseInfo.innerText += response;
+        responseInfo.innerHTML += response;
     });
 
     function crateRemind(name, phone, email, about, event_date, remind_date) {

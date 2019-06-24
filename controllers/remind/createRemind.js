@@ -6,6 +6,14 @@ module.exports = async (data) => {
         const Event = dataBase.getModel('Event');
 
         const {name, phone, email, about, event_date, remind_date} = data;
+
+        if (!name ||
+            !phone ||
+            !email ||
+            !about ||
+            !event_date ||
+            !remind_date) throw new Error('All fields are required and some data missed');
+
         await User.create({
             name,
             phone,
@@ -21,6 +29,8 @@ module.exports = async (data) => {
             }
         });
 
+        if (!user_id) throw new Error('Unfortunately user didn\'t create, try again');
+
         await Event.create({
             about,
             remind_date,
@@ -34,5 +44,6 @@ module.exports = async (data) => {
 
     } catch (e) {
         console.log(e.message);
+        return e.message;
     }
 };
